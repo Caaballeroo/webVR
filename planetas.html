@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+</head>
+
+<body>
+    <a-scene>
+        <a-sphere position="4000 -1000 -8000" radius="4000" src="./Snowy_02-1024x512.png"
+        animation="property: rotation; to: 0 360; dur: 600000; easing: linear; loop: true" ></a-sphere>
+
+        <a-sphere position="2500 0 -3500" radius="500" src="Gaseous_01-1024x512.png"
+        animation="property: rotation; to: 0 360; dur: 300000; easing: linear; loop: true" ></a-sphere>
+
+        <a-sphere position="-500 300 -500" radius="200" src="./planeta tierra.jpg"
+        animation="property: rotation; to: 0 360; dur: 100000; easing: linear; loop: true" ></a-sphere>
+
+        <a-circle color="green" position="0 -1 0" rotation="-90" radius="30"></a-circle>
+
+        <a-light intensity="1" position="1000 5000 1000" ></a-light>
+
+        <!-- <a-sphere position="0 -3000 0" radius="3000" color="green"></a-sphere> -->
+
+        <a-sky src="./stars.jpg" radius="10000"></a-sky>
+    </a-scene>
+</body>
+
+</html>
