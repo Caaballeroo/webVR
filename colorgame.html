@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+
+</head>
+
+<body>
+    <a-scene obb-collider="showColliders: false">
+
+        <a-camera obb-collider id="player" wasd-controls="acceleration:0">
+            <a-cursor></a-cursor>
+            <a-text value="red" color="red" position="-0.3 1.2 -2" id="vida"></a-text>
+            <a-text value="5" color="red" position="2.9 1.5 -2" id="puntuacion"></a-text>
+        </a-camera>
+
+        <a-plane position="0 0 -10" height="400" width="10" rotation="-90" color="black"></a-plane>
+        <a-box class="caja" position="-2 1.5 -20" color="red" obb-collider animation="property: position; to: -2 1.5 0; dur: 8000; easing: linear;"></a-box>
+        <a-box class="caja" position="0 1.5 -20" color="blue" obb-collider animation="property: position; to: 0 1.5 0; dur: 8000; easing: linear;"></a-box>
+        <a-box class="caja" position="2 1.5 -20" color="green" obb-collider animation="property: position; to: 2 1.5 0; dur: 8000; easing: linear;"></a-box>
+        <a-box class="caja" position="-2 3 -20" color="purple" obb-collider animation="property: position; to: -2 3 0; dur: 8000; easing: linear;"></a-box>
+        <a-box class="caja" position="0 3 -20" color="orange" obb-collider animation="property: position; to: 0 3 0; dur: 8000; easing: linear;"></a-box>
+        <a-box class="caja" position="2 3 -20" color="yellow" obb-collider animation="property: position; to: 2 3 0; dur: 8000; easing: linear;"></a-box>
+        <a-box class="caja" position="-2 4.5 -20" color="brown" obb-collider animation="property: position; to: -2 4.5 0; dur: 8000; easing: linear;"></a-box>
+        <a-box class="caja" position="0 4.5 -20" color="gray" obb-collider animation="property: position; to: 0 4.5 0; dur: 8000; easing: linear;"></a-box>
+        <a-box class="caja" position="2 4.5 -20" color="pink" obb-collider animation="property: position; to: 2 4.5 0; dur: 8000; easing: linear;"></a-box>
+
+        <a-light type="ambient" position="0 0 0" color="#fff"></a-light>
+        <a-sky color="white"></a-sky>
+
+        <script>
+            var escena = document.querySelector("a-scene");
+            var vida = document.getElementById("vida");
+            var puntuacion = document.getElementById("puntuacion");
+
+            var duracion = 10000;
+
+            var valoresVida = ["red", "blue", "green","purple","orange","yellow","brown","gray","pink"];
+
+            // Función para cambiar el valor del texto "vida" a uno aleatorio
+            function cambiarValorVida() {
+                var valorAleatorio = valoresVida[Math.floor(Math.random() * valoresVida.length)];
+                vida.setAttribute("value", valorAleatorio);
+                vida.setAttribute("color", valorAleatorio);
+            }
+
+            function asignarEventosCajas() {
+                var cajas = document.getElementsByClassName("caja");
+
+                Array.from(cajas).forEach(function (caja) {
+                    caja.addEventListener("click", function (event) {
+                        if (caja.getAttribute("color") === vida.getAttribute("value")) {
+                            caja.parentNode.removeChild(caja);
+
+                            let nuevaPuntuacion = parseInt(puntuacion.getAttribute("value")) + 1;
+                            puntuacion.setAttribute("value", nuevaPuntuacion.toString());
+
+                            if (duracion >= 4000) {
+                                duracion -= 1000;
+                            }
+                            console.log("Duración reducida:", duracion);
+
+                            redoCajas();
+                            cambiarValorVida();
+                        } else {
+                            let nuevaPuntuacion = parseInt(puntuacion.getAttribute("value")) - 1;
+                            puntuacion.setAttribute("value", nuevaPuntuacion.toString());
+
+                            if (duracion <= 10000) {
+                                duracion += 1000;
+                            }
+                            console.log("Duración aumentada:", duracion);
+
+                            redoCajas();
+                            
+                            if (puntuacion.getAttribute("value") < 0) {
+                                vida.setAttribute("value", "Click To restart");
+                                puntuacion.setAttribute("value", "0");
+                                gameOver();
+                            }
+                        }
+                    });
+                    caja.addEventListener("obbcollisionstarted", function(event){
+
+                        if(puntuacion.getAttribute("value")>=0){
+                            let nuevaPuntuacion = parseInt(puntuacion.getAttribute("value")) - 1;
+                            puntuacion.setAttribute("value", nuevaPuntuacion.toString());
+                            if (duracion <= 10000) {
+                                duracion += 1000;
+                            }
+                            console.log("Duración aumentada:", duracion);
+                        }
+                        redoCajas();
+                        if(puntuacion.getAttribute("value")<0){
+                            vida.setAttribute("value", "Click To restart");
+                            puntuacion.setAttribute("value", "0");
+                            gameOver();
+                        }
+                    });
+                });
+            }
+
+            function redoCajas() {
+                destruirCajas();
+
+                // Crear y añadir nuevas cajas
+                var colores = ["red", "blue", "green", "purple", "orange", "yellow", "brown", "gray", "pink"];
+                colores = colores.sort(() => Math.random() - 0.5);
+
+                var posiciones = [-2, 0, 2];
+                var colorIndex = 0;
+
+                // Primer conjunto de cajas
+                for (let i = 0; i < posiciones.length; i++) {
+                    var cajaNueva = document.createElement("a-box");
+                    cajaNueva.setAttribute("class", "caja");
+                    cajaNueva.setAttribute("position", `${posiciones[i]} 1.5 -20`);
+                    cajaNueva.setAttribute("color", colores[colorIndex++]); // Asigna un color único
+                    cajaNueva.setAttribute("obb-collider", "");
+                    cajaNueva.setAttribute("animation", `property: position; to: ${posiciones[i]} 1.5 0; dur: ${duracion}; easing: linear;`);
+                    escena.appendChild(cajaNueva);
+                    console.log("caja1");
+                }
+
+                // Segundo conjunto de cajas
+                for (let i = 0; i < posiciones.length; i++) {
+                    var cajaNueva = document.createElement("a-box");
+                    cajaNueva.setAttribute("class", "caja");
+                    cajaNueva.setAttribute("position", `${posiciones[i]} 3 -20`);
+                    cajaNueva.setAttribute("color", colores[colorIndex++]); // Asigna un color único
+                    cajaNueva.setAttribute("obb-collider", "");
+                    cajaNueva.setAttribute("animation", `property: position; to: ${posiciones[i]} 3 0; dur: ${duracion}; easing: linear;`);
+                    escena.appendChild(cajaNueva);
+                    console.log("caja2");
+                }
+
+                // Tercer conjunto de cajas
+                for (let i = 0; i < posiciones.length; i++) {
+                    var cajaNueva = document.createElement("a-box");
+                    cajaNueva.setAttribute("class", "caja");
+                    cajaNueva.setAttribute("position", `${posiciones[i]} 4.5 -20`);
+                    cajaNueva.setAttribute("color", colores[colorIndex++]); // Asigna un color único
+                    cajaNueva.setAttribute("obb-collider", "");
+                    cajaNueva.setAttribute("animation", `property: position; to: ${posiciones[i]} 4.5 0; dur: ${duracion} ; easing: linear;`);
+                    escena.appendChild(cajaNueva);
+                    console.log("caja3");
+                }
+
+
+                if (duracion >= 3000) {
+                    duracion -= 1000;
+                    console.log("Nueva duración:", duracion);
+                }
+                
+                // Asignar eventos a las nuevas cajas
+                asignarEventosCajas();
+                
+            }
+
+            function destruirCajas() {
+                var cajas = document.getElementsByClassName("caja");
+                while (cajas.length > 0) {
+                    cajas[0].parentNode.removeChild(cajas[0]);
+                }
+            }
+
+            function gameOver() {
+                destruirCajas()
+                // var cajaNueva = document.createElement("a-box");
+                // cajaNueva.setAttribute("class", "restart");
+                // cajaNueva.setAttribute("position", `0 3 -5`);
+                // cajaNueva.setAttribute("color", "green"); 
+                // cajaNueva.setAttribute("obb-collider", "");
+                // escena.appendChild(cajaNueva);
+            }
+
+            asignarEventosCajas();
+
+            
+        </script>
+    </a-scene>
+</body>
+
+</html>
