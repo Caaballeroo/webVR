@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<htmL>
+    <head>
+        <script src="https://aframe.io/releases/0.5.0/aframe.min.js"></script>
+        <script src="components/ground.js"></script>
+        <script src="components/skyGradient.js"></script>
+        <script src="components/aframe-particle-system-component.js"></script>
+        <script type="text/javascript" src="script.js"></script>
+        <link rel="stylesheet" href="style.css"/>
+        <title>Zombie Rush</title>
+    </head>
+    <body>
+        <!--Score screen-->
+        <div class="score">Score: 0</div>
+        <!--Timer screen-->
+        <div class="timer" id="timer">Time Left: 35</div>
+        <!--Title Screen-->
+        <div style="cursor: pointer" id="startGame" class="screen title-screen">
+          <div class="title">ZOMBIE RUSH</div>
+          <div class="start blink">Click to Start</div>
+          <div class="instructions">Aim for the zombies with the red cursor.<br>Hover to shoot.<br><br>You have 35 seconds to shoot all 12 zombies!</div>
+        </div>
+        <!--End Screen Success-->
+        <div class="screen end-screen-win">
+            
+            <div class="end">Congratulations you saved the world!</div>
+            <div class="end">Made by <a href="http://www.github.com/charityhsu">Charity</a> and <a href="http://www.github.com/izzyreiff">Izzy</a>
+            <br><br><br>
+            <a href="https://izzyreiff.github.io/zombierush">Click here to replay the game!</a>
+          </div>
+        </div>
+        <!--End Screen Fail-->
+        <div class="screen end-screen-lose">
+            <div class="end">Oh no! You got turned into a zombie, and the human race now ceases to exist!</div>
+            <div class="end">Made by <a href="http://www.github.com/charityhsu">Charity</a> and <a href="http://www.github.com/izzyreiff">Izzy</a>
+            <br><br>
+            <a href="https://izzyreiff.github.io/zombierush">Click here to replay the game!</a>
+          </div>
+        </div>
+        <!--Scene-->
+        <a-scene fog="type: linear; color: #bc483e">
+            <!--Assets-->
+            <a-asset>
+                <img id="ground" src="assets/ground2.jpg"/>
+                <img id="zombiefit" src="assets/Lambent_Female_N.png"/>
+                <audio id="audio" src="assets/zombiebackgroundyay.mp3" preload="auto" loop="false"></audio>
+                <audio id="death" src="assets/zombiedeath.mp3" preload="auto"></audio>
+                <a-asset-item id="zombie-obj" src="assets/gears-of-war-3-lambent-female.obj"></a-asset-item>
+                <a-asset-item id="zombie-mtl" src="assets/gears-of-war-3-lambent-female.mtl"></a-asset-item>
+            </a-asset>
+            <!--Sky-->
+            <a-entity
+                id="sky"
+                geometry="primitive: sphere; radius: 65;"
+                material="shader: skyGradient; colorTop: #353449; colorBottom: #BC483E; side: back"
+                sound="src: #audio; autoplay: true; loop: true"
+            ></a-entity>
+            <!--Dust-->
+            <a-entity position="0 10 0" particle-system="preset: dust; particleCount: 5000"></a-entity>
+            <!--Ground-->
+            <a-entity
+                ground>
+            </a-entity>
+            <!--Light-->
+            <a-entity
+                light="type: point; intensity: 1.75; distance: 50; decay: 2; color: #fff"
+                position="0 10 5"
+            ></a-entity>
+            <!--Ground-->
+            <a-plane src="#ground" height="50" width="50" rotation="-90 0 0"></a-plane>
+            <!--Zombies-->
+            
+            <!--Zombie 1-->
+            <a-obj-model class="clickable" id="z1" src="#zombie-obj" mtl="#zombie-mtl" position="-15 0 -20" sound="src: #death; on: click">
+                <a-animation
+                    attribute="rotation"
+                    fill="forwards"
+                    to="0 45 0"
+                    >
+                </a-animation>
+                <a-animation
+                   attribute="position"
+                   to="0 0 0"
+                   direction="normal"
+                   easing="linear"
+                   dur="35000"
+                   repeat="0"
+                   fill="forwards"
+                   >
+               </a-animation>
+               <a-animation
+                   attribute="visible"
+                   begin="click"
+                   to="false"
+               ></a-animation>
+            </a-obj-model>
+            <!--Zombie 2-->
+            <a-obj-model class="clickable" id="z2" src="#zombie-obj" mtl="#zombie-mtl" position="3 0 -20" sound="src: #death; on: click">
+               <a-animation
+                   attribute="position"
+                   to="0 0 0"
+                   direction="normal"
+                   easing="linear"
+                   dur="35000"
+                   repeat="0"
+                   fill="forwards">
+               </a-animation>
+               <a-animation
+                   attribute="visible"
+                   begin="click"
+                   to="false"
+               ></a-animation>
+            </a-obj-model>
+            <!--Zombie 3-->
+            <a-obj-model class="clickable" id="z3" src="#zombie-obj" mtl="#zombie-mtl" position="15 0 -20" sound="src: #death; on: click">
+                <a-animation
+                attribute="rotation"
+                fill="forwards"
+                to="0 -45 0">
+                </a-animation>
+                
+               <a-animation
+                   attribute="position"
+                   to="0 0 0"
+                   direction="normal"
+                   easing="linear"
+                   dur="35000"
+                   repeat="0"
+                   fill="forwards">
+               </a-animation>
+               <a-animation
+                   attribute="visible"
+                   begin="click"
+                   to="false"
+               ></a-animation>
+            </a-obj-model>
+            <!--Next Batch of Zombies (2)-->
+            <!--Zombie 4-->
+            <a-obj-model class="clickable" id="z4" src="#zombie-obj" mtl="#zombie-mtl" position="-15 0 20" sound="src: #death; on: click">
+                <a-animation
+                attribute="rotation"
+                fill="forwards"
+                to="0 135 0">
+                </a-animation>
+               <a-animation
+                   attribute="position"
+                   to="0 0 0"
+                   direction="normal"
+                   easing="linear"
+                   dur="35000"
+                   repeat="0"
+                   fill="forwards"
+                   >
+               </a-animation>
+               <a-animation
+                   attribute="visible"
+                   begin="click"
+                   to="false"
+               ></a-animation>
+            </a-obj-model>
+            <!--Zombie 5-->
+            <a-obj-model class="clickable" id="z5" src="#zombie-obj" mtl="#zombie-mtl" position="0 0 20" sound="src: #death; on: click">
+                <a-animation
+                attribute="rotation"
+                fill="forwards"
+                to="0 180 0">
+                </a-animation>
+               <a-animation
+                   attribute="position"
+                   to="0 0 0"
+                   direction="normal"
+                   easing="linear"
+                   dur="35000"
+                   repeat="0"
+                   fill="forwards">
+               </a-animation>
+               <a-animation
+                   attribute="visible"
+                   begin="click"
+                   to="false"
+               ></a-animation>
+            </a-obj-model>
+            <!--Zombie 6-->
+            <a-obj-model class="clickable" id="z6" src="#zombie-obj" mtl="#zombie-mtl" position="15 0 20" sound="src: #death; on: click">
+                <a-animation
+                attribute="rotation"
+                fill="forwards"
+                to="0 225 0">
+                </a-animation>
+               <a-animation
+                   attribute="position"
+                   to="0 0 0"
+                   direction="normal"
+                   easing="linear"
+                   dur="35000"
+                   repeat="0"
+                   fill="forwards">
+               </a-animation>
+               <a-animation
+                   attribute="visible"
+                   begin="click"
+                   to="false"
+               ></a-animation>
+            </a-obj-model>
+            <!--Next Batch of Zombies (3)-->
+            <!--Zombie 7-->
+            <a-obj-model class="clickable" id="z7" src="#zombie-obj" mtl="#zombie-mtl" position="-20 0 -15" sound="src: #death; on: click">
+                <a-animation
+                attribute="rotation"
+                fill="forwards"
+                to="0 45 0">
+                </a-animation>
+               <a-animation
+                   attribute="position"
+                   to="0 0 0"
+                   direction="normal"
+                   easing="linear"
+                   dur="35000"
+                   repeat="0"
+                   fill="forwards"
+                   >
+               </a-animation>
+               <a-animation
+                   attribute="visible"
+                   begin="click"
+                   to="false"
+               ></a-animation>
+            </a-obj-model>
+            <!--Zombie 8-->
+            <a-obj-model class="clickable" id="z8" src="#zombie-obj" mtl="#zombie-mtl" position="-20 0 0" sound="src: #death; on: click">
+                <a-animation
+                attribute="rotation"
+                fill="forwards"
+                to="0 90 0">
+                </a-animation>
+               <a-animation
+                   attribute="position"
+                   to="0 0 0"
+                   direction="normal"
+                   easing="linear"
+                   dur="35000"
+                   repeat="0"
+                   fill="forwards">
+               </a-animation>
+               <a-animation
+                   attribute="visible"
+                   begin="click"
+                   to="false"
+               ></a-animation>
+            </a-obj-model>
+            <!--Zombie 9-->
+            <a-obj-model class="clickable" id="z9" src="#zombie-obj" mtl="#zombie-mtl" position="-20 0 15" sound="src: #death; on: click">
+                <a-animation
+                attribute="rotation"
+                fill="forwards"
+                to="0 135 0">
+                </a-animation>
+               <a-animation
+                   attribute="position"
+                   to="0 0 0"
+                   direction="normal"
+                   easing="linear"
+                   dur="35000"
+                   repeat="0"
+                   fill="forwards">
+               </a-animation>
+               <a-animation
+                   attribute="visible"
+                   begin="click"
+                   to="false"
+               ></a-animation>
+            </a-obj-model>
+            <!--Next Batch of Zombies (4)-->
+            <!--Zombie 10-->
+            <a-obj-model class="clickable" id="z10" src="#zombie-obj" mtl="#zombie-mtl" position="20 0 -15" sound="src: #death; on: click">
+                <a-animation
+                attribute="rotation"
+                fill="forwards"
+                to="0 -45 0">
+                </a-animation>
+               <a-animation
+                   attribute="position"
+                   to="0 0 0"
+                   direction="normal"
+                   easing="linear"
+                   dur="35000"
+                   repeat="0"
+                   fill="forwards"
+                   >
+               </a-animation>
+               <a-animation
+                   attribute="visible"
+                   begin="click"
+                   to="false"
+               ></a-animation>
+            </a-obj-model>
+            <!--Zombie 11-->
+            <a-obj-model class="clickable" id="z11" src="#zombie-obj" mtl="#zombie-mtl" position="20 0 0" sound="src: #death; on: click">
+                <a-animation
+                attribute="rotation"
+                fill="forwards"
+                to="0 -90 0">
+                </a-animation>
+               <a-animation
+                   attribute="position"
+                   to="0 0 0"
+                   direction="normal"
+                   easing="linear"
+                   dur="35000"
+                   repeat="0"
+                   fill="forwards">
+               </a-animation>
+               <a-animation
+                   attribute="visible"
+                   begin="click"
+                   to="false"
+               ></a-animation>
+            </a-obj-model>
+            <!--Zombie 12-->
+            <a-obj-model class="clickable" id="z12" src="#zombie-obj" mtl="#zombie-mtl" position="20 0 15" sound="src: #death; on: click">
+                <a-animation
+                attribute="rotation"
+                fill="forwards"
+                to="0 -135 0">
+                </a-animation>
+               <a-animation
+                   attribute="position"
+                   to="0 0 0"
+                   direction="normal"
+                   easing="linear"
+                   dur="35000"
+                   repeat="0"
+                   fill="forwards">
+               </a-animation>
+               <a-animation
+                   attribute="visible"
+                   begin="click"
+                   to="false"
+               ></a-animation>
+            </a-obj-model>
+            
+            <!--Camera-->
+            <a-camera userHeight="1.6" position="0 1 0">
+                <a-cursor
+                    radius="10"
+                    position="0 0 0" 
+                    material="color: red; shader: flat"
+                    maxDistance="30"
+                    fuse="true"
+                    fuseTimeout="0"
+                    objects=.clickable
+                    >
+                <a-animation begin="click" easing="ease-in" attribute="scale" fill="forwards" from="2 2 2" to="1 1 1" dur="400"></a-animation>
+                <a-animation begin="fusing" easing="ease-in" attribute="scale" fill="forwards" from="1 1 1" to="2 2 2" dur="800"></a-animation>
+                </a-cursor>
+            </a-camera>
+        </a-scene>
+    </body>
+</htmL>

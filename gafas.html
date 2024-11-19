@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+
+</head>
+
+<body>
+    <a-scene obb-collider="showColliders: false" >
+        <a-plane position="0 1 -10" width="10" height="20" rotation="-90 0" color="#CCC" material="" geometry=""></a-plane>
+        
+        <a-box id="caja" position="0 1.5 -5" color="red" obb-collider></a-box>
+        <a-light type="ambient" position="0 0 0" color="#fff" light=""></a-light>
+        
+        <a-entity oculus-touch-controls="hand: left" ></a-entity>
+        <a-entity oculus-touch-controls="hand: right" raycaster=" showLine: true; far:100; lineColor:red; lineOpacity: 0.5"></a-cursor></a-entity>
+
+        <a-camera id="player">
+        </a-camera>
+    </a-scene>
+
+    <script>
+
+        var caja = document.getElementById("caja");
+        caja.addEventListener("raycaster-intersected", function(event){
+            this.setAttribute("color", "green");
+        });
+
+        caja.addEventListener("raycaster-intersected-cleared", function(event){
+            this.setAttribute("color", "yellow");
+        });
+
+
+    </script>
+</body>
+
+</html>

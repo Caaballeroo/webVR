@@ -10,10 +10,13 @@
     <a-scene obb-collider="showColliders: false">
 
         <a-camera obb-collider id="player" wasd-controls="acceleration:0">
-            <a-cursor></a-cursor>
+            <!-- <a-cursor></a-cursor> -->
             <a-text value="red" color="red" position="-0.3 1.2 -2" id="vida"></a-text>
             <a-text value="5" color="red" position="2.9 1.5 -2" id="puntuacion"></a-text>
         </a-camera>
+
+        <a-entity oculus-touch-controls="hand: left"></a-entity>
+        <a-entity oculus-touch-controls="hand: right"></a-entity>
 
         <a-plane position="0 0 -10" height="400" width="10" rotation="-90" color="black"></a-plane>
         <a-box class="caja" position="-2 1.5 -20" color="red" obb-collider animation="property: position; to: -2 1.5 0; dur: 8000; easing: linear;"></a-box>
