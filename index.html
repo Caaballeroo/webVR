@@ -4,22 +4,58 @@
 <head>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://cdn.rawgit.com/jeromeetienne/ar.js/1.7.7/aframe/build/aframe-ar.min.js"></script>
+    <script>
+        // Script para detectar gestos táctiles
+        AFRAME.registerComponent('gesture-rotation', {
+            schema: {
+                enabled: { default: true }
+            },
+            init: function () {
+                this.startX = 0;
+                this.currentRotation = this.el.object3D.rotation.y;
+                this.onTouchStart = this.onTouchStart.bind(this);
+                this.onTouchMove = this.onTouchMove.bind(this);
+                this.onTouchEnd = this.onTouchEnd.bind(this);
+                this.el.sceneEl.canvas.addEventListener('touchstart', this.onTouchStart);
+                this.el.sceneEl.canvas.addEventListener('touchmove', this.onTouchMove);
+                this.el.sceneEl.canvas.addEventListener('touchend', this.onTouchEnd);
+            },
+            remove: function () {
+                this.el.sceneEl.canvas.removeEventListener('touchstart', this.onTouchStart);
+                this.el.sceneEl.canvas.removeEventListener('touchmove', this.onTouchMove);
+                this.el.sceneEl.canvas.removeEventListener('touchend', this.onTouchEnd);
+            },
+            onTouchStart: function (event) {
+                if (!this.data.enabled) return;
+                this.startX = event.touches[0].clientX;
+            },
+            onTouchMove: function (event) {
+                if (!this.data.enabled) return;
+                const deltaX = event.touches[0].clientX - this.startX;
+                this.el.object3D.rotation.y = this.currentRotation - deltaX * 0.01;
+            },
+            onTouchEnd: function () {
+                this.currentRotation = this.el.object3D.rotation.y;
+            }
+        });
+    </script>
 </head>
 
 <body>
     <a-scene embedded arjs>
         <a-assets>
-            <!-- Carga del modelo de Charmander -->
+            <!-- Modelo de Charmander -->
             <a-asset-item id="charmander-obj" src="imgs/charmander.obj"></a-asset-item>
             <a-asset-item id="charmander-mtl" src="imgs/charmander.mtl"></a-asset-item>
         </a-assets>
 
-        <!-- Marcador que muestra a Charmander -->
+        <!-- Marcador y modelo -->
         <a-marker preset="hiro">
             <a-entity 
                 obj-model="obj: #charmander-obj; mtl: #charmander-mtl" 
                 scale="0.5 0.5 0.5" 
-                position="0 0 0">
+                position="0 0 0" 
+                gesture-rotation>
             </a-entity>
         </a-marker>
 
@@ -28,3 +64,4 @@
 </body>
 
 </html>
+
