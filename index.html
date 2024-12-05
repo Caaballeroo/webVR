@@ -9,12 +9,11 @@
     <body>
         <a-scene embedded arjs>
             <a-marker preset="hiro">
-                <a-sphere position="0.75 0 0" radius="0.75" color="pink"></a-sphere>
-                <a-sphere position="-0.75 0 0" radius="0.75" color="pink"></a-sphere>
-                <a-sphere position="0.75 0.75 0" radius="0.1" color="black"></a-sphere>
-                <a-sphere position="-0.75 0.75 0" radius="0.1" color="black"></a-sphere>
-                <!-- <a-sphere position="0 4 0" radius="0.5" color="pink"></a-sphere>
-                <a-cylinder position="0 2 0" radius="0.5" height="4" color="brown"></a-cylinder> -->
+                <a-entity 
+                    ply-model="src: url(pikachu.ply);" 
+                    scale="0.1 0.1 0.1" 
+                    position="0 0 0">
+                </a-entity>
             </a-marker>
         <a-entity camera></a-entity>
         </a-scene>
