@@ -9,11 +9,8 @@
     <body>
         <a-scene embedded arjs>
             <a-marker preset="hiro">
-                <a-entity 
-                    ply-model="src: url(pikachu.ply);" 
-                    scale="0.1 0.1 0.1" 
-                    position="0 0 0">
-                </a-entity>
+                <a-asset-item id="london-obj" src="imgs/charmander.obj"></a-asset-item>
+                <a-asset-item id="london-mtl" src="imgs/charmander.mtl"></a-asset-item>
             </a-marker>
         <a-entity camera></a-entity>
         </a-scene>
