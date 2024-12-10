@@ -1,60 +1,31 @@
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 
 <head>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://cdn.rawgit.com/jeromeetienne/ar.js/1.7.7/aframe/build/aframe-ar.min.js"></script>
-    <script>
-        // Script para detectar gestos táctiles
-        AFRAME.registerComponent('gesture-rotation', {
-            schema: {
-                enabled: { default: true }
-            },
-            init: function () {
-                this.startX = 0;
-                this.currentRotation = this.el.object3D.rotation.y;
-                this.onTouchStart = this.onTouchStart.bind(this);
-                this.onTouchMove = this.onTouchMove.bind(this);
-                this.onTouchEnd = this.onTouchEnd.bind(this);
-                this.el.sceneEl.canvas.addEventListener('touchstart', this.onTouchStart);
-                this.el.sceneEl.canvas.addEventListener('touchmove', this.onTouchMove);
-                this.el.sceneEl.canvas.addEventListener('touchend', this.onTouchEnd);
-            },
-            remove: function () {
-                this.el.sceneEl.canvas.removeEventListener('touchstart', this.onTouchStart);
-                this.el.sceneEl.canvas.removeEventListener('touchmove', this.onTouchMove);
-                this.el.sceneEl.canvas.removeEventListener('touchend', this.onTouchEnd);
-            },
-            onTouchStart: function (event) {
-                if (!this.data.enabled) return;
-                this.startX = event.touches[0].clientX;
-            },
-            onTouchMove: function (event) {
-                if (!this.data.enabled) return;
-                const deltaX = event.touches[0].clientX - this.startX;
-                this.el.object3D.rotation.y = this.currentRotation - deltaX * 0.01;
-            },
-            onTouchEnd: function () {
-                this.currentRotation = this.el.object3D.rotation.y;
-            }
-        });
-    </script>
+    <script src="https://raw.githack.com/fcor/arjs-gestures/master/dist/gestures.js"></script>
 </head>
 
 <body>
-    <a-scene embedded arjs>
+    <a-scene embedded arjs gesture-detector>
         <a-assets>
-
+            <!-- Modelo de Charmander -->
             <a-asset-item id="charmander-obj" src="imgs/charmander.obj"></a-asset-item>
             <a-asset-item id="charmander-mtl" src="imgs/charmander.mtl"></a-asset-item>
+            <a-asset-item id="diglett-obj" src="imgs/diglett.obj"></a-asset-item>
+            <a-asset-item id="diglett-mtl" src="imgs/diglett.mtl"></a-asset-item>
+            <a-asset-item id="cubone-obj" src="imgs/cubone.obj"></a-asset-item>
+            <a-asset-item id="cubone-mtl" src="imgs/cubone.mtl"></a-asset-item>
         </a-assets>
 
+        <!-- Marcador y modelo -->
         <a-marker preset="hiro">
             <a-entity 
                 obj-model="obj: #charmander-obj; mtl: #charmander-mtl" 
                 scale="2 2 2"
                 position="0 0 0" 
-                gesture-rotation>
+                gesture-handler>
             </a-entity>
         </a-marker>
         <a-marker type="barcode" value="0">
@@ -62,7 +33,7 @@
                 obj-model="obj: #charmander-obj; mtl: #charmander-mtl" 
                 scale="2 2 2"
                 position="0 0 0" 
-                gesture-rotation>
+                gesture-handler>
             </a-entity>
         </a-marker>
         <a-marker type="barcode" value="1">
@@ -70,7 +41,7 @@
                 obj-model="obj: #diglett-obj; mtl: #diglett-mtl" 
                 scale="2 2 2"
                 position="0 0 0" 
-                gesture-rotation>
+                gesture-handler>
             </a-entity>
         </a-marker>
         <a-marker type="barcode" value="2">
@@ -78,7 +49,7 @@
                 obj-model="obj: #cubone-obj; mtl: #cubone-mtl" 
                 scale="2 2 2"
                 position="0 0 0" 
-                gesture-rotation>
+                gesture-handler>
             </a-entity>
         </a-marker>
         <a-entity camera></a-entity>
@@ -86,96 +57,4 @@
 </body>
 
 </html>
- -->
 
-<!DOCTYPE html>
-<html>
-  <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
-  <!-- we import arjs version without NFT but with marker + location based support -->
-  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
-  <script>
-    window.onload = function () {
-      document
-        .querySelector(".say-hi-button")
-        .addEventListener("click", function () {
-          // here you can change also a-scene or a-entity properties, like
-          // changing your 3D model source, size, position and so on
-          // or you can just open links, trigger actions...
-          alert("Hi there!");
-        });
-    };
-  </script>
-  <style>
-    .buttons {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 5em;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 10;
-    }
-
-    .say-hi-button {
-      padding: 0.25em;
-      border-radius: 4px;
-      border: none;
-      background: white;
-      color: black;
-      width: 4em;
-      height: 2em;
-    }
-  </style>
-  <body style="margin : 0px; overflow: hidden;">
-    <div class="buttons">
-      <button class="say-hi-button">SAY HI!</button>
-    </div>
-    <a-scene embedded arjs>
-        <a-assets>
-
-            <a-asset-item id="charmander-obj" src="imgs/charmander.obj"></a-asset-item>
-            <a-asset-item id="charmander-mtl" src="imgs/charmander.mtl"></a-asset-item>
-            <a-asset-item id="charmander-obj" src="imgs/diglett.obj"></a-asset-item>
-            <a-asset-item id="charmander-mtl" src="imgs/diglett.mtl"></a-asset-item>
-            <a-asset-item id="charmander-obj" src="imgs/cubone.obj"></a-asset-item>
-            <a-asset-item id="charmander-mtl" src="imgs/cubone.mtl"></a-asset-item>
-        </a-assets>
-
-        <a-marker preset="hiro">
-            <a-entity 
-                obj-model="obj: #charmander-obj; mtl: #charmander-mtl" 
-                scale="2 2 2"
-                position="0 0 0" 
-                gesture-rotation>
-            </a-entity>
-        </a-marker>
-        <a-marker type="barcode" value="0">
-            <a-entity 
-                obj-model="obj: #charmander-obj; mtl: #charmander-mtl" 
-                scale="2 2 2"
-                position="0 0 0" 
-                gesture-rotation>
-            </a-entity>
-        </a-marker>
-        <a-marker type="barcode" value="1">
-            <a-entity 
-                obj-model="obj: #diglett-obj; mtl: #diglett-mtl" 
-                scale="2 2 2"
-                position="0 0 0" 
-                gesture-rotation>
-            </a-entity>
-        </a-marker>
-        <a-marker type="barcode" value="2">
-            <a-entity 
-                obj-model="obj: #cubone-obj; mtl: #cubone-mtl" 
-                scale="2 2 2"
-                position="0 0 0" 
-                gesture-rotation>
-            </a-entity>
-        </a-marker>
-      <a-entity camera></a-entity>
-    </a-scene>
-  </body>
-</html>
