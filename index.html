@@ -5,8 +5,24 @@
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://cdn.rawgit.com/jeromeetienne/ar.js/1.7.7/aframe/build/aframe-ar.min.js"></script>
     <script src="https://raw.githack.com/fcor/arjs-gestures/master/dist/gestures.js"></script>
+    <style>
+        /* Bloqueo visual de la orientación a landscape */
+        body {
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Ocultar el texto de "markersAreaEnabled" */
+        #arjs-debug {
+            display: none !important;
+        }
+    </style>
     <script>
-        // Bloquear orientación de la pantalla
+        // Bloqueo de la orientación de pantalla (intentamos en landscape)
         window.addEventListener('load', function () {
             if (screen.orientation && screen.orientation.lock) {
                 screen.orientation.lock('landscape').catch(function (err) {
@@ -19,7 +35,7 @@
     </script>
 </head>
 
-<body style="margin : 0px; overflow: hidden;">
+<body>
     <a-scene embedded arjs gesture-detector>
         <a-assets>
             <!-- Modelos -->
@@ -64,4 +80,5 @@
         <a-entity camera></a-entity>
     </a-scene>
 </body>
+
 </html>
