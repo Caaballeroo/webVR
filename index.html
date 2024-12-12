@@ -5,33 +5,6 @@
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://cdn.rawgit.com/jeromeetienne/ar.js/1.7.7/aframe/build/aframe-ar.min.js"></script>
     <script src="https://raw.githack.com/fcor/arjs-gestures/master/dist/gestures.js"></script>
-    <style>
-        /* Bloqueo visual de la orientación a landscape */
-        body {
-            margin: 0;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        /* Ocultar el texto de "markersAreaEnabled" */
-        #arjs-debug {
-            display: none !important;
-        }
-    </style>
-    <script>
-        // Bloqueo de la orientación de pantalla (intentamos en landscape)
-        window.addEventListener('load', function () {
-            if (screen.orientation && screen.orientation.lock) {
-                screen.orientation.lock('landscape').catch(function (err) {
-                    console.warn('No se pudo bloquear la orientación:', err);
-                });
-            } else {
-                console.warn('Screen Orientation API no está disponible.');
-            }
-        });
     </script>
 </head>
 
@@ -48,7 +21,7 @@
         </a-assets>
 
         <!-- Marcador 0: Charmander -->
-        <a-marker type="barcode" barcodeValue="0">
+        <a-marker type="barcode" value="0">
             <a-entity 
                 obj-model="obj: #charmander-obj; mtl: #charmander-mtl" 
                 scale="2 2 2"
@@ -58,7 +31,7 @@
         </a-marker>
 
         <!-- Marcador 1: Diglett -->
-        <a-marker type="barcode" barcodeValue="1">
+        <a-marker type="barcode" value="1">
             <a-entity 
                 obj-model="obj: #diglett-obj; mtl: #diglett-mtl" 
                 scale="2 2 2"
@@ -68,7 +41,7 @@
         </a-marker>
 
         <!-- Marcador 2: Cubone -->
-        <a-marker type="barcode" barcodeValue="2">
+        <a-marker type="barcode" value="2">
             <a-entity 
                 obj-model="obj: #cubone-obj; mtl: #cubone-mtl" 
                 scale="2 2 2"
