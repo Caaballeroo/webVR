@@ -5,13 +5,24 @@
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://cdn.rawgit.com/jeromeetienne/ar.js/1.7.7/aframe/build/aframe-ar.min.js"></script>
     <script src="https://raw.githack.com/fcor/arjs-gestures/master/dist/gestures.js"></script>
+    <script>
+        // Bloquear orientación de la pantalla
+        window.addEventListener('load', function () {
+            if (screen.orientation && screen.orientation.lock) {
+                screen.orientation.lock('landscape').catch(function (err) {
+                    console.warn('No se pudo bloquear la orientación:', err);
+                });
+            } else {
+                console.warn('Screen Orientation API no está disponible.');
+            }
+        });
+    </script>
 </head>
-
 
 <body style="margin : 0px; overflow: hidden;">
     <a-scene embedded arjs gesture-detector>
         <a-assets>
-            <!-- Modelo de Charmander -->
+            <!-- Modelos -->
             <a-asset-item id="charmander-obj" src="imgs/charmander.obj"></a-asset-item>
             <a-asset-item id="charmander-mtl" src="imgs/charmander.mtl"></a-asset-item>
             <a-asset-item id="diglett-obj" src="imgs/diglett.obj"></a-asset-item>
@@ -20,7 +31,7 @@
             <a-asset-item id="cubone-mtl" src="imgs/cubone.mtl"></a-asset-item>
         </a-assets>
 
-        <!-- Marcador y modelo -->
+        <!-- Marcador 0: Charmander -->
         <a-marker type="barcode" value="0">
             <a-entity 
                 obj-model="obj: #charmander-obj; mtl: #charmander-mtl" 
@@ -29,22 +40,9 @@
                 gesture-handler>
             </a-entity>
         </a-marker>
-        <a-marker type="barcode" value="0">
-            <a-entity>
-                <a-box position="0 0 0" rotation="0 0 0" color="#ffc107"></a-box>
-            </a-entity>
-        </a-marker>
+
+        <!-- Marcador 1: Diglett -->
         <a-marker type="barcode" value="1">
-            <a-entity>
-                <a-box position="0 0 0" rotation="0 0 0" color="red"></a-box>
-            </a-entity>
-        </a-marker>
-        <a-marker type="barcode" value="2">
-            <a-entity>
-                <a-box position="0 0 0" rotation="0 0 0" color="green"></a-box>
-            </a-entity>
-        </a-marker>
-        <!-- <a-marker type="barcode" value="1">
             <a-entity 
                 obj-model="obj: #diglett-obj; mtl: #diglett-mtl" 
                 scale="2 2 2"
@@ -52,6 +50,8 @@
                 gesture-handler>
             </a-entity>
         </a-marker>
+
+        <!-- Marcador 2: Cubone -->
         <a-marker type="barcode" value="2">
             <a-entity 
                 obj-model="obj: #cubone-obj; mtl: #cubone-mtl" 
@@ -59,10 +59,9 @@
                 position="0 0 0" 
                 gesture-handler>
             </a-entity>
-        </a-marker> -->
+        </a-marker>
+
         <a-entity camera></a-entity>
     </a-scene>
 </body>
-
 </html>
-
