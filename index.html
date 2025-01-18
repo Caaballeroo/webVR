@@ -5,6 +5,7 @@
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://cdn.rawgit.com/jeromeetienne/ar.js/1.7.7/aframe/build/aframe-ar.min.js"></script>
     <script src="https://raw.githack.com/fcor/arjs-gestures/master/dist/gestures.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/nicolocarpignoli/aframe-barcode-component@master/dist/aframe-barcode-component.min.js"></script>
     </script>
 </head>
 
@@ -287,6 +288,21 @@
             </a-entity>
         </a-marker>
 
+        <a-marker type="barcode" value="5">
+            <a-entity id="carousel" position="0 1 -3" rotation="0 0 0" scale="1 1 1" gesture-carousel gesture-detector>
+                <!-- Images in the carousel -->
+                <a-image src="#cara1" position="-1 0 0"></a-image>
+                <a-image src="#cara2" position="0 0 0"></a-image>
+                <a-image src="#cara3" position="1 0 0"></a-image>
+              </a-entity>
+        </a-marker>
+
+         <!-- Barcode entity -->
+    <a-entity barcode>
+        <!-- Carousel entity -->
+        
+      </a-entity>
+
         <a-entity camera></a-entity>
     </a-scene>
         <!-- <div style="text-align: center; margin-top: 20px;">
@@ -294,5 +310,41 @@
             <button style="padding: 10px 20px; font-size: 16px; margin: 5px;">Botón 2</button>
         </div> -->
 </body>
+<script>
+    AFRAME.registerComponent('gesture-carousel', {
+      init: function () {
+        this.carouselIndex = 0;
+        this.images = Array.from(this.el.querySelectorAll('a-image'));
+        this.totalImages = this.images.length;
+        this.setupCarousel();
+  
+        // Event listener for swiping
+        this.el.addEventListener('swipeleft', this.nextImage.bind(this));
+        this.el.addEventListener('swiperight', this.previousImage.bind(this));
+      },
+  
+      setupCarousel: function() {
+        this.images.forEach((image, index) => {
+          image.setAttribute('visible', index === this.carouselIndex);
+        });
+      },
+  
+      nextImage: function() {
+        this.carouselIndex = (this.carouselIndex + 1) % this.totalImages;
+        this.updateCarousel();
+      },
+  
+      previousImage: function() {
+        this.carouselIndex = (this.carouselIndex - 1 + this.totalImages) % this.totalImages;
+        this.updateCarousel();
+      },
+  
+      updateCarousel: function() {
+        this.images.forEach((image, index) => {
+          image.setAttribute('visible', index === this.carouselIndex);
+        });
+      }
+    });
+  </script>
 
 </html>
